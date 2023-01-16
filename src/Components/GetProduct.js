@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Container, Row, Table } from 'react-bootstrap'
-import productList from './Product'
-import { Tooltip, Button } from 'antd';
+import { Tooltip, } from 'antd';
+
+
+const getLocalStorageData = () => {
+  const getData = localStorage.getItem('Data')
+  if (getData) {
+    return JSON.parse(localStorage.getItem('Data'));
+  }
+  else {
+    return [];
+  }
+}
 const GetProduct = () => {
+  const [localStorageData, setLocalStorageData] = useState(getLocalStorageData());
   return (
     <Container>
       <Row>
@@ -16,14 +27,14 @@ const GetProduct = () => {
             </tr>
           </thead>
           <tbody>
-            {productList.map((data) => {
+            {!localStorageData ? <h2>No result</h2> : localStorageData.map((data,key) => {
               return (
                 <tr>
-                  <td>{data.Id}</td>
+                  <td>{key+1}</td>
                   <td>{data.Name}</td>
                   <td>{data.Price}</td>
                   <td><Tooltip placement='left' color={'#13669a'} title={'Delete this entry'}><button className='btn btn-warning'>Delete</button></Tooltip>
-                  <Tooltip placement='right' color={'#13669a'} title={'Edit this entry'}><button className='btn btn-primary'>Edit</button></Tooltip>
+                    <Tooltip placement='right' color={'#13669a'} title={'Edit this entry'}><button className='btn btn-primary'>Edit</button></Tooltip>
                   </td>
 
                 </tr>
